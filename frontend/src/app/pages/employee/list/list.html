@@ -1,0 +1,71 @@
+<h1>Employee List</h1>
+
+@if(errorSignal() != null){
+<div class="alert alert-danger">
+    {{ errorSignal() }}
+</div>
+}
+
+
+<div class="row mb-3">
+    <div class="col">
+        <button type="button" class="btn btn-primary" (click)="loadEmployees()">Reload</button>
+    </div>
+    <div class="col">
+        Number of employees: {{ filteredCount() }}/{{ employeeCount() }}
+    </div>
+    <div class="col">
+        <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Search..." 
+            (input)="searchText.set($any($event.target).value)" />
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Role</th>
+            <th>Code</th>
+            <th>Department</th>
+            <th>
+                @if(isLoading()){
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                }
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(employee of filteredEmployees(); track employee.id){
+        <tr>
+            <td>
+                {{ employee.firstName }}
+                {{ employee.lastName }}
+            </td>
+
+            <td>
+                {{ employee.employeeRole }}
+            </td>
+
+            <td>
+                {{ employee.employeeCode }}
+            </td>
+
+            <td>
+                {{ employee.departmentName }}
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger" (click)="deleteEmployee(employee.id)">
+                    Delete
+                </button>
+                <!-- <a class="btn btn-warning" href="/empoyee/edit/{{ employee.id }}">Edit</a> -->
+                <a class="btn btn-warning" [routerLink]="['/employee', 'edit', employee.id]">Edit</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
