@@ -1,0 +1,26 @@
+services:
+  sqlserver:
+    build: ./database
+    container_name: CompanyApi_sqlserver
+    image: CompanyApi/sqlserver:1.0
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "#wasd28!"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    
+  backend:
+    build: ./backend/CompanyApi
+    container_name: CompanyApi_backend
+    image: CompanyApi/backend:1.0
+    ports:
+      - "8080:8080"
+    environment:
+      ConnectionStrings__CompanyDB: "Server=sqlserver,1433;Database=CompanyDB;User Id=sa;Password=#wasd28!;TrustServerCertificate=True"
+    depends_on:
+      - sqlserver
+
+volumes:
+  sqlserver_data:
