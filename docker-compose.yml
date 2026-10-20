@@ -22,5 +22,14 @@ services:
     depends_on:
       - sqlserver
 
+  angular:
+    build: ./frontend
+    container_name: CompanyApi_frontend
+    image: CompanyApi/frontend-ui:latest
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
 volumes:
   sqlserver_data:
