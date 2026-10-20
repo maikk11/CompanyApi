@@ -1,0 +1,11 @@
+@CompanyApi_HostAddress = http://localhost:5140
+
+GET {{CompanyApi_HostAddress}}/openapi/v1.json
+Accept: application/json
+
+###
+
+GET {{CompanyApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
