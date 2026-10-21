@@ -1,6 +1,6 @@
 #Contruzione immagine
 #scarica l'immagine
-FROM mcr.microsoft.com/dotnet/sdk:11.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 #crea la directory
 WORKDIR /src
 #copia il file con le dipendenze
@@ -17,7 +17,7 @@ RUN dotnet publish "CompanyApi.csproj" \
 
 
 #Run Immagine
-FROM mcr.microsoft.com/dotnet/aspnet:11.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 
 WORKDIR /app
 
