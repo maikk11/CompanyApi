@@ -1,0 +1,72 @@
+<h1>Edit Employee</h1>
+
+<form [formGroup]="employeeForm" (ngSubmit)="updateEmployee()">
+
+    <div class="mb-3">
+        <label class="form-label">
+            First Name
+        </label>
+        <input type="text" class="form-control" formControlName="firstName">
+        @if(employeeForm.controls.firstName.invalid && 
+            employeeForm.controls.firstName.touched){
+                <div class="text-danger mt-1">
+                    First Name not valid
+                </div>
+            }
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            Last Name
+        </label>
+        <input type="text" class="form-control" formControlName="lastName">
+        @if(employeeForm.controls.lastName.invalid && 
+            employeeForm.controls.lastName.touched){
+                <div class="text-danger mt-1">
+                    Last Name not valid
+                </div>
+            }
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            Role
+        </label>
+        <input type="text" class="form-control" formControlName="employeeRole">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            Employee Code
+        </label>
+        <input type="text" class="form-control" formControlName="employeeCode">
+        @if(employeeForm.controls.employeeCode.invalid && 
+            employeeForm.controls.employeeCode.touched){
+                <div class="text-danger mt-1">
+                    Employee code not valid
+                </div>
+            }
+    </div>
+
+
+    <div class="mb-3">
+        <label class="form-label">
+            Department
+        </label>
+
+        <select class="form-control" formControlName="departmentRef">
+            <option [ngValue]="0">Select department</option>
+
+            @for(department of departments(); track department.id){
+            <option [ngValue]="department.id">{{ department.depName }}</option>
+            }
+        </select>
+    </div>
+
+
+        <button class="btn btn-success" type="submit">
+            Update Employee
+        </button>
+
+
+</form>
