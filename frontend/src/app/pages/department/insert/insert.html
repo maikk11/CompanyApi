@@ -1,0 +1,47 @@
+<h1>Insert Department</h1>
+
+@if(errorSignal() != null){
+<div class="alert alert-danger">
+    {{ errorSignal() }}
+</div>
+}
+
+<form [formGroup]="departmentForm" (ngSubmit)="createDepartment()">
+
+    <div class="mb-3">
+        <label class="form-label">
+            Name
+        </label>
+        <input type="text" class="form-control" formControlName="depName">
+        @if(departmentForm.controls.depName.invalid &&
+            departmentForm.controls.depName.touched){
+                <div class="text-danger mt-1">
+                    Name not valid
+                </div>
+            }
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            Location
+        </label>
+        <input type="text" class="form-control" formControlName="depLocation">
+        @if(departmentForm.controls.depLocation.invalid &&
+            departmentForm.controls.depLocation.touched){
+                <div class="text-danger mt-1">
+                    Location not valid
+                </div>
+            }
+    </div>
+
+    @if(successInsert()){
+    <div class="alert alert-success">
+        Department created, in 3 seconds you will be redirected to list!
+    </div>
+    } @else {
+        <button class="btn btn-success" type="submit" [disabled]="isSaving()">
+            Create Department
+        </button>
+    }
+
+</form>

@@ -9,13 +9,13 @@
 
 CompanyApi is an employee management application for a company. A REST API
 manages employees and departments, an Angular single page application lets
-users browse, create, edit and delete employees, and the whole stack (database,
+users browse, create, edit and delete both, and the whole stack (database,
 backend and frontend) runs with a single Docker Compose command.
 
 > **Project status: CRUD complete, not deployed.** The API and the Angular
-> screens for employees are implemented and merged. The application runs
-> locally with Docker Compose. It has not been deployed anywhere, and the
-> things that should be settled before it is are listed under
+> screens for employees and departments are implemented and merged. The
+> application runs locally with Docker Compose. It has not been deployed
+> anywhere, and the things that should be settled before it is are listed under
 > [Known limitations](#known-limitations).
 
 ## What it does
@@ -24,6 +24,11 @@ backend and frontend) runs with a single Docker Compose command.
   last name or employee code.
 - Creates, edits and deletes employees from the Angular interface. Deleting
   asks for confirmation.
+- Lists departments with their location and the number of employees, and
+  filters the list by name or location.
+- Creates, edits and deletes departments from the Angular interface. When the
+  API rejects an operation, for example the deletion of a department that
+  still has employees, the interface shows the message returned by the API.
 - Exposes a REST API for employees and departments, with validation and explicit
   error responses (see [API](#api)).
 - Checks that an employee points to an existing department and that an employee
@@ -201,8 +206,8 @@ directly. For that reason the backend enables CORS for the frontend origin.
   references between employees and departments. Read queries project directly
   onto the DTOs.
 - **The Angular application** uses standalone components and signals. A service
-  wraps the calls to the API, and the list, insert and edit pages are reached
-  through the router.
+  wraps the calls to the API, and the list, insert and edit pages of employees
+  and departments are reached through the router.
 - **nginx** serves the compiled Angular application. It falls back to
   `index.html` for every path that is not a file, so that routes such as
   `/employee/list` also work when opened directly or reloaded.
@@ -232,6 +237,25 @@ CompanyApi/
 ├── .env.example
 └── LICENSE
 ```
+
+## Known limitations
+
+These are known and tracked, not forgotten:
+
+- **No authentication or authorization.** Anyone who can reach the API can read
+  and change the data.
+- **No automated tests.** The CI workflow only restores and builds the backend.
+- **The CORS origin is written in the code** (`http://localhost:4200`), so
+  serving the frontend from another address means changing the backend.
+- **The uniqueness checks are not atomic.** The employee code is checked before
+  saving, so two simultaneous requests with the same code can both pass the
+  check. The database constraint is the last line of defense.
+- **The database port is published on the host** for development convenience.
+  It should not be exposed like this outside a local machine.
+- **No HTTPS inside the containers.** Only HTTP ports are exposed.
+- **Changing the schema means editing `import.sql` and recreating the
+  database volume.** There are no migrations.
+- **No pagination.** The employee list loads every row.
 
 ## License
 
